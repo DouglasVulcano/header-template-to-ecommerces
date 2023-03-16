@@ -1,6 +1,7 @@
 import "./App.css";
 import ProductCard from "./components/ProductCard";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 function App() {
   const products = [
@@ -54,6 +55,7 @@ function App() {
           ))}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
