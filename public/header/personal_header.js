@@ -1,5 +1,5 @@
 /**
- * Configurações de Api
+ * API settings
  */
 const getApiConfigs = () => ({
   endpoint: "http://localhost:3000/api",
@@ -11,59 +11,68 @@ const fetchApi = (endpoint) =>
     .then((data) => data);
 
 /**
- * Cria o botão flutuante fechado
+ * Create the closed floating button
  */
 const floatingButtonClose = async () => {
   const apiConf = getApiConfigs();
 
-  // configurações do header
+  // header settings
   let headerConf = await fetchApi(apiConf.endpoint);
   if (headerConf) {
     localStorage.setItem("headerConf", JSON.stringify(headerConf));
 
-    // cria o botão flutuante
+    // create floating button
     const floatingButton = document.createElement("button");
     floatingButton.innerHTML = `<img src="https://i.pinimg.com/originals/0f/9f/38/0f9f389b440e4dcaf1c98e9b4c9fadfc.png" alt="Arrow Open" />`;
     floatingButton.className = "personal_header-floating-button-closed";
     floatingButton.id = "personal_header-floating-button-closed";
 
-    // adiciona o evento de click
+    // add click event
     floatingButton.addEventListener("click", () => {
-      // remove o botão flutuante fechado
+      // remove closed floating button
       document.body.removeChild(floatingButton);
 
-      // cria o botão flutuante aberto
+      // create open floating button
       floatingButtonOpen();
     });
 
-    // adiciona o botão flutuante ao corpo do documento
+    // adds the floating button to the body of the document
     document.body.appendChild(floatingButton);
   }
 };
 
 /**
- * Cria o botão flutuante aberto
+ * create the open floating button
  */
 const floatingButtonOpen = async () => {
   const data = JSON.parse(localStorage.getItem("headerConf"));
 
-  // cria o botão flutuante
+  // create floating button
   const floatingButtonOpened = document.createElement("button");
   floatingButtonOpened.innerHTML = `
-  <img src="${data.partner.image}" alt="${data.partner.name}" />
-  <div>
-    <button class="personal_header-close-button" onclick="closeButton()"><b>&#x2715</b></button>
-  </div>`;
+    <img src="${data.partner.image}" alt="${data.partner.name}" />
+    <div>
+      <button class="personal_header-close-button" onclick="closeButton()"><b>&#x2715</b></button>
+    </div>
+    <div>
+      ${generateSocialButtons(data.social_networks)}
+      <button class="personal_header-social" style="top: -60px;" onclick="copyToClipboard()">
+        <img src="/images/share.png" alt="Copy to Clipboard" />
+      </button>
+    </div>`;
+
   floatingButtonOpened.className = "personal_header-floating-button";
   floatingButtonOpened.id = "personal_header-floating-button";
 
-  // adiciona o botão flutuante ao corpo do documento
+  // add floating button in document body
   document.body.appendChild(floatingButtonOpened);
 };
 
 /**
- * Fecha o botão flutuante aberto
+ ************************************************** AUXILIARY METHODS
  */
+// Close open floating button
+// eslint-disable-next-line no-unused-vars
 const closeButton = () => {
   // remove o botão flutuante aberto
   const floatingButtonOpened = document.getElementById(
@@ -75,6 +84,36 @@ const closeButton = () => {
   floatingButtonClose();
 };
 
-// Botão flutuante principal
+// copy to clipboard
+// eslint-disable-next-line no-unused-vars
+function copyToClipboard() {
+  navigator.clipboard
+    .writeText(window.location.href)
+    .then(() => alert("URL copiada para a área de transferência!"))
+    .catch((err) => console.error("Erro ao copiar URL: ", err));
+}
+
+// eslint-disable-next-line no-unused-vars
+const socialNetworkAction = (sn) => {
+  alert(`Ação para a rede social ${sn}`);
+};
+
+const generateSocialButtons = (configs) => {
+  let contents = "",
+    top = -105;
+
+  configs.forEach((sn) => {
+    contents += `<button class="personal_header-social" style="top: ${top}px;" onclick="socialNetworkAction('${sn.social_network}')">
+        <a href="${sn.link}" target="_blank" rel="noopener noreferrer">
+          <img src="${sn.icon}" alt="${sn.social_network}"/>
+        </a>
+      </button>`;
+
+    top -= 45;
+  });
+
+  return contents;
+};
+
+// main floating button
 window.addEventListener("load", floatingButtonClose);
-console.log(window.location);

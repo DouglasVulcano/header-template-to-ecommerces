@@ -1,0 +1,30 @@
+{
+  "api": {
+    "partner": {
+      "image": "https://www.arita.com.br/wp-content/uploads/2020/08/pessoa-expansiva-principais-caracteristicas-desta-personalidade.jpg",
+      "name": "User Tester"
+    },
+    "social_networks": [
+      {
+        "social_network": "facebook",
+        "link": "https://www.facebook.com/",
+        "icon": "/images/facebook.png"
+      },
+      {
+        "social_network": "instagram",
+        "link": "https://www.instagram.com/",
+        "icon": "/images/instagram.png"
+      },
+      {
+        "social_network": "twitter",
+        "link": "https://www.twitter.com/",
+        "icon": "/images/twitter.png"
+      },
+      {
+        "social_network": "youtube",
+        "link": "https://www.youtube.com/",
+        "icon": "/images/youtube.png"
+      }
+    ]
+  }
+}
